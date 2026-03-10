@@ -2,6 +2,8 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/auth.routes');
+const foodRoutes = require('./routes/food.routes');
+
 
 
 //Creation of a server:
@@ -17,6 +19,8 @@ app.get("/", (req, res) => {
 
 app.use('/api/auth', authRoutes); //To access the APIs of auth, we need to add a prefix
 //Here we are telling our server that there exists some APIs related to auth
+app.use('/api/food', foodRoutes);
+
 
 
 
