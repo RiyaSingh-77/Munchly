@@ -1,0 +1,163 @@
+:root {
+  --bg: #f7f7f8;
+  --surface: #ffffff;
+  --text: #111316;
+  --muted: #6b7280;
+  --accent: #2563eb;
+  --accent-600: #1e40af;
+  --input-bg: #ffffff;
+  --border: #e6e7eb;
+  --radius: 10px;
+  --shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  --glass: rgba(255,255,255,0.6);
+
+  /* transition helpers */
+  --transition-fast: 160ms;
+  --transition-medium: 240ms;
+}
+
+/* Dark theme follows user's system preference */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b0f13;
+    --surface: #0f1720;
+    --text: #e6eef8;
+    --muted: #9aa6b2;
+    --accent: #2563eb;
+    --accent-600: #93c5fd;
+    --input-bg: #0b1116;
+    --border: #1f2a33;
+    --radius: 10px;
+    --shadow: 0 8px 30px rgba(2,6,23,0.6);
+    --glass: rgba(255,255,255,0.03);
+  }
+}
+
+/* Respect OS preference when no explicit theme is set */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0b0f13;
+    --surface: #0f1720;
+    --text: #e6eef8;
+    --muted: #9aa6b2;
+    --accent: #2563eb;
+    --accent-600: #93c5fd;
+    --input-bg: #0b1116;
+    --border: #1f2a33;
+    --shadow: 0 8px 30px rgba(2,6,23,0.6);
+    --glass: rgba(255,255,255,0.03);
+  }
+}
+
+/* Explicit theme override via attribute/class on <html> or <body>:
+   - html[data-theme="dark"] OR body[data-theme="dark"]
+   - html[data-theme="light"] OR body[data-theme="light"]
+   These take precedence over prefers-color-scheme. */
+html[data-theme="dark"],
+body[data-theme="dark"],
+:root.theme-dark,
+.theme-dark {
+  --bg: #0b0f13;
+  --surface: #0f1720;
+  --text: #e6eef8;
+  --muted: #9aa6b2;
+  --accent: #2563eb;
+  --accent-600: #93c5fd;
+  --input-bg: #0b1116;
+  --border: #1f2a33;
+  --shadow: 0 8px 30px rgba(2,6,23,0.6);
+  --glass: rgba(255,255,255,0.03);
+}
+
+html[data-theme="light"],
+body[data-theme="light"],
+:root.theme-light,
+.theme-light {
+  /* re-declare light values to ensure explicit light mode */
+  --bg: #f7f7f8;
+  --surface: #ffffff;
+  --text: #111316;
+  --muted: #6b7280;
+  --accent: #2563eb;
+  --accent-600: #1e40af;
+  --input-bg: #ffffff;
+  --border: #e6e7eb;
+  --shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  --glass: rgba(255,255,255,0.6);
+}
+
+/* Theme toggle control styles (place the button anywhere; JS toggles html[data-theme]) */
+.theme-toggle {
+  --w: 44px;
+  --h: 26px;
+  display: inline-block;
+  width: var(--w);
+  height: var(--h);
+  border-radius: calc(var(--h) / 2);
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  position: relative;
+  padding: 3px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+.theme-toggle .dot {
+  position: absolute;
+  top: 50%;
+  left: 4px;
+  transform: translateY(-50%);
+  width: calc(var(--h) - 8px);
+  height: calc(var(--h) - 8px);
+  background: var(--accent);
+  border-radius: 50%;
+  transition: left var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* Move dot to right when dark theme is active on page */
+html[data-theme="dark"] .theme-toggle .dot,
+body[data-theme="dark"] .theme-toggle .dot,
+.theme-dark .theme-toggle .dot {
+  left: calc(var(--w) - var(--h) + 4px);
+  background: var(--accent-600);
+  transform: translateY(-50%);
+}
+
+/* optional small icons inside the toggle (sun/moon) - purely decorative */
+.theme-toggle .icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: var(--muted);
+  pointer-events: none;
+  transition: color var(--transition-fast);
+}
+
+.theme-toggle .icon.sun {
+  left: 6px;
+}
+
+.theme-toggle .icon.moon {
+  right: 6px;
+  opacity: 0.9;
+}
+
+/* In dark mode, slightly adjust the control appearance */
+html[data-theme="dark"] .theme-toggle,
+body[data-theme="dark"] .theme-toggle,
+.theme-dark .theme-toggle {
+  background: rgba(255,255,255,0.02);
+  border-color: var(--border);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.28);
+}
+
+/* Smooth global color transitions */
+*,
+*::before,
+*::after {
+  transition: background-color var(--transition-medium) ease, color var(--transition-medium) ease, border-color var(--transition-medium) ease;
+}
