@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+
 const UserLogin = () => {
 
   const navigate = useNavigate();
@@ -9,18 +10,30 @@ const UserLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const email = e.target.email.value;
+
+
+    const email = e.target.email.value.trim();
     const password = e.target.password.value;
 
-    const response = await axios.post("http://localhost:3000/api/auth/user/login", {
-      email,
-      password
-    }, { withCredentials: true });
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/user/login",
+        { email, password },
+        { withCredentials: true, headers: { 'Content-Type': 'application/json' } }
+      );
 
-    console.log(response.data);
+      console.log(response.data);
 
-    navigate("/"); // Redirect to home after login
-
+      if (response.status >= 200 && response.status < 300) {
+        navigate("/create-food"); // Redirect to home after successful login
+      } else {
+        console.error('Login failed', response.data);
+        alert(response.data?.message || 'Login failed');
+      }
+    } catch (err) {
+      console.error('Login error', err.response?.data || err.message);
+      alert(err.response?.data?.message || 'Login failed. Check credentials or server.');
+    }
   };
 
   return (

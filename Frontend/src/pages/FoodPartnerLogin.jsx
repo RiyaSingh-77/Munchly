@@ -15,7 +15,7 @@ const FoodPartnerLogin = () => {
     const response = await axios.post("http://localhost:3000/api/auth/food-partner/login", {
       email,
       password
-    }, { withCredentials: true });
+    }, {  withCredentials: true });
 
     console.log(response.data);
 

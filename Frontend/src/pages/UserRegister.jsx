@@ -15,7 +15,7 @@ const UserRegister = () => {
         const email = e.target.email.value;
         const password = e.target.password.value;
 
-
+        try{
         const response = await axios.post("http://localhost:3000/api/auth/user/register", {
             fullName: firstName + " " + lastName,
             email,
@@ -27,9 +27,13 @@ const UserRegister = () => {
 
         console.log(response.data);
 
-        navigate("/")
+        navigate("/home")
 
-    };
+    } catch (err) {
+        console.error('Registration error', err.response?.data || err.message);
+        alert(err.response?.data?.message || 'Registration failed. Check input or server.');
+    }
+};
 
     return (
         <div className="auth-page-wrapper">
