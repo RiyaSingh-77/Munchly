@@ -9,6 +9,7 @@ const CreateFood = () => {
     const [ videoFile, setVideoFile ] = useState(null);
     const [ videoURL, setVideoURL ] = useState('');
     const [ fileError, setFileError ] = useState('');
+    const [ isSubmitting, setIsSubmitting ] = useState(false);
     const fileInputRef = useRef(null);
 
     const navigate = useNavigate();
@@ -48,20 +49,25 @@ const CreateFood = () => {
     const openFileDialog = () => fileInputRef.current?.click();
 
     const onSubmit = async (e) => {
-        e.preventDefault();
+    e.preventDefault();
+    setIsSubmitting(true);
 
-        const formData = new FormData();
-        formData.append('name', name);
-        formData.append('description', description);
-        formData.append("mama", videoFile);
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('description', description);
+    formData.append("video", videoFile);
 
+    try {
         const response = await axios.post("http://localhost:3000/api/food", formData, {
             withCredentials: true,
         });
-
         console.log(response.data);
-        navigate("/");
-    };
+        navigate("/home");
+    } catch (err) {
+        console.error(err);
+        setIsSubmitting(false);
+    }
+};
 
     const isDisabled = useMemo(() => !name.trim() || !videoFile, [ name, videoFile ]);
 
@@ -159,8 +165,8 @@ const CreateFood = () => {
 
                     {/* ── Submit ── */}
                     <div className="form-actions">
-                        <button className="btn-primary" type="submit" disabled={isDisabled}>
-                            Save Food
+                        <button className="btn-primary" type="submit" disabled={isDisabled || isSubmitting}>
+                          {isSubmitting ? 'Uploading...' : 'Save Food'}
                         </button>
                     </div>
 
