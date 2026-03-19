@@ -50,7 +50,7 @@ const ReelFeed = ({ items = [], onLike = () => {}, onSave = () => {}, emptyMessa
             <div style={{display:'flex',gap:8}}>
               <button onClick={() => onLike(item)} className="visit-btn">Like {item.likeCount ? `(${item.likeCount})` : ''}</button>
               <button onClick={() => onSave(item)} className="visit-btn">Save {item.savesCount ? `(${item.savesCount})` : ''}</button>
-              <a className="visit-btn" href={item.store || '#'}>Visit store</a>
+              <a className="visit-btn" href={`/food-partner/profile/${item.foodPartner}`}>Visit store</a>
             </div>
           </div>
         </section>
