@@ -33,6 +33,11 @@ router.get("/",
         foodController.saveFood
     )
 
+    router.get("/saved",
+    authMiddleware.authUserMiddleware,
+    foodController.getSavedFoodItems
+)
+
 
      
 

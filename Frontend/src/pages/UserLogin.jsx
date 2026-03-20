@@ -25,7 +25,7 @@ const UserLogin = () => {
       console.log(response.data);
 
       if (response.status >= 200 && response.status < 300) {
-        navigate("/create-food"); // Redirect to home after successful login
+        navigate("/home"); // Redirect to home after successful login
       } else {
         console.error('Login failed', response.data);
         alert(response.data?.message || 'Login failed');

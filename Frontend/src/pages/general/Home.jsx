@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import '../../styles/reels.css' 
 import ReelFeed from '../../components/ReelFeed'
 
 const Home = () => {
@@ -37,7 +38,7 @@ const Home = () => {
             if(response.data.save){
                 setVideos((prev) => prev.map((v) => v._id === item._id ? { ...v, savesCount: (v.savesCount || 0) + 1 } : v))
             }else{
-                setVideos((prev) => prev.map((v) => v._id === item._id ? { ...v, savesCount: (v.savesCount || 0) - 1 } : v))
+                setVideos((prev) => prev.map((v) => v._id === item._id ? { ...v,savesCount: Math.max(0, (v.savesCount || 0) - 1) } : v))
             }
         } catch (err) {
             console.error(err);

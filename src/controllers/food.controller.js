@@ -98,7 +98,8 @@ async function saveFood(req, res) {
             food: foodId
         })
         return res.status(200).json({
-            message: "Food unsaved successfully"
+            message: "Food unsaved successfully",
+            save: false 
         })
     }
 
@@ -109,8 +110,23 @@ async function saveFood(req, res) {
 
     res.status(201).json({
         message: "Food saved successfully",
-        save
+        save: true
     })
+}
+
+async function getSavedFoodItems(req, res) {
+    try {
+        const user = req.user;
+        const savedItems = await saveModel.find({ user: user._id }).populate('food')
+        const foodItems = savedItems.map(item => item.food)
+        res.status(200).json({
+            message: "Saved foods retrieved successfully",
+            foodItems
+        })
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Something went wrong" })
+    }
 }
 
 
@@ -120,5 +136,6 @@ module.exports = {
     createFoodItem,
     getFoodItems,
     likeFood,
-    saveFood
+    saveFood,
+    getSavedFoodItems
 }
