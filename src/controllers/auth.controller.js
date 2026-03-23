@@ -129,7 +129,7 @@ async function registerFoodPartner(req, res){
         id: foodPartner._id,
     }, process.env.JWT_SECRET)
 
-    res.cookie("token", token, {
+    res.cookie("fp_token", token, {
         httpOnly: true,
         secure: true,
         sameSite: 'none'
@@ -170,7 +170,7 @@ async function loginFoodPartner(req, res) {
     const token = jwt.sign({
         id: foodPartner._id,
     }, process.env.JWT_SECRET)
-    res.cookie("token", token, {
+    res.cookie("fp_token", token, {
         httpOnly: true,
         secure: true,
         sameSite: 'none'
@@ -188,7 +188,7 @@ async function loginFoodPartner(req, res) {
 }
 
 function logoutFoodPartner(req, res){
-    res.clearCookie("token");
+    res.clearCookie("fp_token");
     res.status(200).json({
         message: "Food partner logged out successfully"
     });

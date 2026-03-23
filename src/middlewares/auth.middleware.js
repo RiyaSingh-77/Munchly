@@ -12,7 +12,7 @@ async function authFoodPartnerMiddleware(req, res, next){
     console.log("Middleware hit!")
     console.log("Cookies:", req.cookies)
 
-    const token = req.cookies.token;
+    const token = req.cookies.fp_token;
     console.log("Token:", token)
     if(!token) {
         return res.status(401).json({
