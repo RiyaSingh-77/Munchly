@@ -7,7 +7,7 @@ const Profile = () => {
     const { id } = useParams()
     const [profile, setProfile] = useState(null)
     const [videos, setVideos] = useState([])
-    const [currentFoodPartner, setCurrentFoodPartner] = useState(null) // ← add this
+    const [currentFoodPartner, setCurrentFoodPartner] = useState(null)
 
     useEffect(() => {
         // Fetch the profile
@@ -16,21 +16,31 @@ const Profile = () => {
                 setProfile(response.data.foodPartner)
                 setVideos(response.data.foodPartner.foodItems)
             })
+            .catch((err) => {
+                console.log('❌ profile fetch error:', err.response?.status, err.response?.data)
+            })
 
         // Check who is currently logged in
         axios.get(`https://zomato-backend-ajqm.onrender.com/api/food-partner/me`, { withCredentials: true })
             .then(response => {
+                console.log('✅ /me response:', response.data)
+                console.log('✅ currentFoodPartner._id:', response.data.foodPartner?._id)
+                console.log('✅ id from URL:', id)
+                console.log('✅ isOwner will be:', response.data.foodPartner?._id?.toString() === id)
                 setCurrentFoodPartner(response.data.foodPartner)
             })
-            .catch(() => {
-                setCurrentFoodPartner(null) // not logged in as food partner
+            .catch((err) => {
+                console.log('❌ /me error — status:', err.response?.status)
+                console.log('❌ /me error — data:', err.response?.data)
+                console.log('❌ /me error — message:', err.message)
+                setCurrentFoodPartner(null)
             })
     }, [id])
 
-    const isOwner = currentFoodPartner?._id?.toString() === id// ← true only if viewing own profile
+    const isOwner = currentFoodPartner?._id?.toString() === id
 
     const handleDelete = async (foodId) => {
-        if(!window.confirm("Are you sure you want to delete this?")) return;
+        if (!window.confirm("Are you sure you want to delete this?")) return;
         try {
             await axios.delete(
                 `https://zomato-backend-ajqm.onrender.com/api/food/${foodId}`,
@@ -89,7 +99,6 @@ const Profile = () => {
                             src={v.video}
                             muted
                         />
-                        {/* ← Only show delete button if owner */}
                         {isOwner && (
                             <button
                                 onClick={() => handleDelete(v._id)}
