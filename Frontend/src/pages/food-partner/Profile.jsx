@@ -27,7 +27,7 @@ const Profile = () => {
             })
     }, [id])
 
-    const isOwner = currentFoodPartner?._id.toString() === id // ← true only if viewing own profile
+    const isOwner = currentFoodPartner?._id?.toString() === id// ← true only if viewing own profile
 
     const handleDelete = async (foodId) => {
         if(!window.confirm("Are you sure you want to delete this?")) return;
