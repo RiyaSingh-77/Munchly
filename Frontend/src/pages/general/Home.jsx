@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from '../../utils/axios';
 import '../../styles/reels.css' 
 import ReelFeed from '../../components/ReelFeed'
+import CommentModal from '../../components/CommentModal'
 
 const Home = () => {
     const [ videos, setVideos ] = useState([])
@@ -45,6 +46,21 @@ const Home = () => {
         }
     }
 
+    // -- Comment modal state and handlers (frontend-only fallback)
+    const [ commentOpen, setCommentOpen ] = useState(false)
+    const [ activeItem, setActiveItem ] = useState(null)
+
+    function openComment(item){
+        setActiveItem(item)
+        setCommentOpen(true)
+    }
+
+    function handleSubmitComment(text, item){
+        // Increment local comment count to give immediate feedback
+        setVideos((prev) => prev.map((v) => v._id === item._id ? { ...v, commentCount: (v.commentCount || 0) + 1 } : v))
+        // Note: backend comment endpoint not present; this is a frontend-only behavior
+    }
+
     return (
         <>
 
@@ -52,7 +68,15 @@ const Home = () => {
                 items={videos}
                 onLike={likeVideo}
                 onSave={saveVideo}
+                onComment={openComment}
                 emptyMessage="No videos available."
+            />
+
+            <CommentModal
+                open={commentOpen}
+                item={activeItem}
+                onClose={() => setCommentOpen(false)}
+                onSubmit={handleSubmitComment}
             />
         </>
     )

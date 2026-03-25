@@ -25,8 +25,14 @@ const Profile = () => {
             )
             setVideos(videos.filter(v => v._id !== foodId))
         } catch (error) {
-            alert("Failed to delete. Try again!")
-        }
+    if (error.response?.status === 403) {
+        alert("You are not authorized to delete this video. Only the food partner who uploaded it can delete their own content.")
+    } else if (error.response?.status === 401) {
+        alert("You are not logged in. Please log in to continue.")
+    } else {
+        alert("Failed to delete. Try again!")
+    }
+}
     }
 
     return (

@@ -36,7 +36,7 @@ const SavedNavIcon = () => (
   </svg>
 )
 
-const ReelFeed = ({ items = [], onLike = () => {}, onSave = () => {}, emptyMessage = 'No items' }) => {
+const ReelFeed = ({ items = [], onLike = () => {}, onSave = () => {}, onComment = () => {}, emptyMessage = 'No items' }) => {
   const videoRefs = useRef([]);
   const navigate = useNavigate();
 
@@ -101,7 +101,7 @@ const ReelFeed = ({ items = [], onLike = () => {}, onSave = () => {}, emptyMessa
               </div>
 
               <div className="action-wrap">
-                <button className="action-btn">
+                <button className="action-btn" onClick={() => onComment(item)}>
                   <CommentIcon />
                 </button>
                 <span className="action-count">{item.commentCount || 0}</span>
