@@ -31,14 +31,14 @@ const Dashboard = () => {
 
           <button
             style={{ ...styles.btn, ...styles.btnSecondary }}
-            onClick={() => navigate('/create-food')}
+            onClick={() => navigate('/food-partner/create-food')}
           >
             ➕ Upload Food
           </button>
 
           <button
             style={{ ...styles.btn, ...styles.btnGhost }}
-            onClick={() => navigate('/home')}
+            onClick={() => navigate('/food-partner/home')}
           >
             🏠 Browse Feed
           </button>
@@ -98,4 +98,8 @@ const styles = {
     fontWeight: '600',
     cursor: 'pointer',
     border: 'none',
-    transition: 'opacity 0.2s',
+    transition: 'opacity 0.2s'
+  }
+};
+
+export default Dashboard;
