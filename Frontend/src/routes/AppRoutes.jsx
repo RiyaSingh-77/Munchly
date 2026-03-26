@@ -10,6 +10,7 @@ import CreateFood from '../pages/food-partner/CreateFood';
 import Profile from '../pages/food-partner/Profile'
 import ReelFeed from '../components/ReelFeed'
 import Saved from '../pages/general/Saved'
+import Dashboard from '../pages/food-partner/Dashboard'
 
 
 
@@ -31,6 +32,7 @@ const AppRoutes = () => {
         <Route path="/food-partner/profile/:id" element={<Profile />} />
         <Route path="/feed" element={<ReelFeed />} /> 
         <Route path="/saved" element={<Saved />} />
+        <Route path="/food-partner/dashboard" element={<Dashboard />} />
 
       </Routes>
     </Router>

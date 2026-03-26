@@ -31,7 +31,7 @@ const FoodPartnerRegister = () => {
     }, { withCredentials: true })
       .then(response => {
         console.log(response.data);
-        navigate("/create-food");
+        navigate("/food-partner/dashboard");
       })
       .catch(error => {
         console.error("There was an error registering!", error);

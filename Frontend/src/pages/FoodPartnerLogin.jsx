@@ -22,7 +22,7 @@ const FoodPartnerLogin = () => {
         { withCredentials: true }
       );
       console.log(response.data);
-      navigate("/create-food"); // loader stays alive until page changes
+      navigate("/food-partner/dashboard"); // loader stays alive until page changes
     } catch (error) {
       console.error("Login error:", error);
       setLoading(false); // only hide loader on failure
